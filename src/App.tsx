@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-// import { ICountry, IState, ICity } from 'country-state-city'
-import { Country, State, City } from 'country-state-city';
+import { City } from 'country-state-city';
 import './custom.css'
 
-export interface Props {
-
-}
-
-const App: React.FC<Props> = () => {
+const App = () => {
   const [cities, setCities] = useState<any[]>([])
   const [suggestions, setsuggestions] = useState<any[]>([])
-  const [cityWeather, setCityWeather] = useState<any[]>([])
   const [clicked, setClicked] = useState<boolean>(false)
 
   // selected city weather result states
   const [description, setDescription] = useState<string>('')
   const [temperature, setTemperature] = useState<string>('')
   const [wind, setWind] = useState<string>('')
+  const [forecast, setForecast] = useState<any[]>([])
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -33,7 +28,7 @@ const App: React.FC<Props> = () => {
     setDescription(response.description)
     setTemperature(response.temperature)
     setWind(response.wind)
-    setCityWeather(response)
+    setForecast(response.forecast)
   }
   const getCity = (cityName: string) => {
     setClicked(true)
@@ -74,10 +69,28 @@ const App: React.FC<Props> = () => {
           <div className="result">
             <div className="today">
               <div className="today__description">
+                <div>
                 <h3>Today</h3>
                 <h4>{description && description}</h4>
-                <h4>{temperature && "Temperature " + temperature}</h4>
-                <h4>{wind && "Wind " + wind}</h4>
+                </div>
+                <div>
+                  <h3>Temperature</h3>
+                  <h4>{temperature && temperature}</h4>
+                </div>
+                <div>
+                <h3>Wind</h3>
+                <h4>{wind && wind}</h4>
+                </div>
+              </div>
+              <div className="for-next-days">
+                <h3>For next {forecast && forecast.length} days</h3>
+                {forecast && forecast.map((singleForecast: { day: string; temperature: string; wind: string }, i: number) =>
+                  <div key={i} className="forecast">
+                    <h4>{singleForecast.day}</h4>
+                    <h4>{singleForecast.temperature}</h4>
+                    <h4>{singleForecast.wind}</h4>
+                  </div>
+                )}
               </div>
             </div>
           </div>

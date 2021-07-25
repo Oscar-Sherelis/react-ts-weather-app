@@ -1,4 +1,12 @@
-h1 {
+body {
+  background: url(https://cdn.dribbble.com/users/3639405/screenshots/8761499/media/9badcccb740ab6cfceda0e5d25bf87a4.jpg?compress=1);
+  background-size: cover;
+  display: grid;
+  background-repeat: no-repeat;
+  justify-content: center;
+  height: 100vh;
+}
+section {
   text-align: center;
 }
 form {
@@ -13,20 +21,51 @@ input,
 .suggestions {
   min-width: 80vw;
   margin: 0 auto;
-  text-align: center;
 }
 input {
   min-height: 40px;
+  border-radius: 14px;
+  padding: 0 14px;
+}
+
+input:focus {
+  outline: none;
 }
 
 .city-to-select {
-    padding: 5px;
-    font-size: 24px;
+  padding: 5px;
+  font-size: 24px;
 }
 .city-to-select:hover {
-  background-color: rgb(19, 85, 172);
+  background-color: rgb(15, 139, 180);
 }
 
-.today__description {
-    display: flex;
+.for-next-days {
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, .15);
+  backdrop-filter: blur(3px);
+  width: 95vw;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.today__description,
+.forecast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 30px auto;
+}
+
+@media (max-width: 450px) {
+  .today__description h3,
+  .for-next-days h3 {
+    font-size: 24px;
+  }
+  .today__description h4,
+  .forecast h4 {
+    font-size: 20px;
+  }
 }
