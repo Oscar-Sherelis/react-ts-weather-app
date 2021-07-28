@@ -1,3 +1,15 @@
+# Weather app 
+
+## Technologies 
+React
+
+## Description
+Weather app made by Oscar Sherelis. \
+Used: \
+api: 'https://goweather.herokuapp.com/weather/' \
+and \
+library: https://www.npmjs.com/package/country-state-city
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
