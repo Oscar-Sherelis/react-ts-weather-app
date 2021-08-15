@@ -12,6 +12,7 @@ const App = () => {
   const [temperature, setTemperature] = useState<string>("");
   const [wind, setWind] = useState<string>("");
   const [forecast, setForecast] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -23,6 +24,12 @@ const App = () => {
   }, []);
 
   const loadCityData = async (cityName: string) => {
+    setDescription("");
+    setTemperature("");
+    setWind("");
+    setForecast([]);
+    setLoading(false);
+
     let fetchString: string =
       "https://goweather.herokuapp.com/weather/" + cityName;
     let response = await (await fetch(fetchString)).json();
@@ -30,6 +37,7 @@ const App = () => {
     setTemperature(response.temperature);
     setWind(response.wind);
     setForecast(response.forecast);
+    setLoading(true);
   };
   const getCity = (cityName: string) => {
     setClicked(true);
@@ -78,50 +86,55 @@ const App = () => {
         </div>
       ) : (
         <div className="result">
-          <div className="today">
-            <div className="today__description">
-              <div>
-                <h3>Today</h3>
-                <h4>{description && description}</h4>
+          {loading ? (
+            <div className="today">
+              {forecast && forecast.length > 0}
+              <div className="today__description">
+                <div>
+                  <h3>Today</h3>
+                  <h4>{description && description}</h4>
+                </div>
+                <div>
+                  <h3>Temperature</h3>
+                  <h4>{temperature && temperature}</h4>
+                </div>
+                <div>
+                  <h3>Wind</h3>
+                  <h4>{wind && wind}</h4>
+                </div>
               </div>
-              <div>
-                <h3>Temperature</h3>
-                <h4>{temperature && temperature}</h4>
-              </div>
-              <div>
-                <h3>Wind</h3>
-                <h4>{wind && wind}</h4>
+              <div className="for-next-days">
+                <h3>For next {forecast && forecast.length} days</h3>
+                {forecast &&
+                  forecast.map(
+                    (
+                      singleForecast: {
+                        day: string;
+                        temperature: string;
+                        wind: string;
+                      },
+                      i: number
+                    ) => (
+                      <div key={i} className="forecast">
+                        <h4>{singleForecast.day}</h4>
+                        <h4>
+                          {singleForecast.temperature.length >= 4
+                            ? singleForecast.temperature
+                            : "No data"}
+                        </h4>
+                        <h4>
+                          {singleForecast.wind.length >= 6
+                            ? singleForecast.wind
+                            : "No data"}
+                        </h4>
+                      </div>
+                    )
+                  )}
               </div>
             </div>
-            <div className="for-next-days">
-              <h3>For next {forecast && forecast.length} days</h3>
-              {forecast &&
-                forecast.map(
-                  (
-                    singleForecast: {
-                      day: string;
-                      temperature: string;
-                      wind: string;
-                    },
-                    i: number
-                  ) => (
-                    <div key={i} className="forecast">
-                      <h4>{singleForecast.day}</h4>
-                      <h4>
-                        {singleForecast.temperature.length >= 4
-                          ? singleForecast.temperature
-                          : "No data"}
-                      </h4>
-                      <h4>
-                        {singleForecast.wind.length >= 6
-                          ? singleForecast.wind
-                          : "No data"}
-                      </h4>
-                    </div>
-                  )
-                )}
-            </div>
-          </div>
+          ) : (
+            <h4>Loading</h4>
+          )}
         </div>
       )}
     </section>
